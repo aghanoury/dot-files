@@ -1,0 +1,23 @@
+#echo "searching the following locations: ${@:-.}"
+
+# optional argument to specify depth of search
+# user would specify this like "-d 2" for example
+
+# parse arguments
+while getopts ":d:" opt; do
+  case $opt in
+    d) depth="$OPTARG"
+    ;;
+    \?) echo "Invalid option -$OPTARG" >&2
+    ;;
+  esac
+done
+
+# if depth is specified, use it
+# otherwise, search all directories
+if [ -z "$depth" ]; then
+  find ${ :-.} -type f,d 2>/dev/null | fzf
+else
+  find -maxdepth $depth -type f,d 2>/dev/null | fzf
+fi
+# find ${depth:-} ${@:-.} -type f 2>/dev/null | fzf

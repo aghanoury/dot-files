@@ -1,0 +1,18 @@
+#! /bin/sh
+
+# hide dot-files
+mv ~/dot-files ~/.dot-files
+
+# user scripts to be in path
+mkdir -p ~/bin
+ln -s ~/.dot-files/scripts ~/bin/scripts
+mkdir -p ~/bin/scripts/local
+touch ~/.local_zshrc
+
+ln -s ~/.dot-files/configs/zshrc     ~/.zshrc
+ln -s ~/.dot-files/vim               ~/.vim
+ln -s ~/.dot-files/vim/vimrc         ~/.vimrc
+ln -s ~/.dot-files/configs/tmux.conf ~/.tmux.conf
+ln -s ~/.dot-files/notes.md          ~/notes
+
+# source ~/.zshrc

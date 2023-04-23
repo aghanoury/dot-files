@@ -1,0 +1,6 @@
+*.local_zshrc
+vim/plugged
+vim/pack
+scripts/local/*
+*.swp
+vim/.*

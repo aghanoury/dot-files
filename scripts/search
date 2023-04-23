@@ -1,0 +1,6 @@
+# if 1 or more arguments are passed, treat the 
+# arguments as files
+# otherwise pass --r flag as a recursive approach for the cwd
+# TODO: handle directory as arguments
+# if a directory is passed
+grep -sEn ".*" ${@:--r} | fzf

@@ -1,0 +1,8 @@
+#! /bin/sh
+
+printf "enter a target zip: "
+read target
+
+echo "INFO: compress files to -> $target"
+
+tar -cvzf ${target}.tar.gz $*

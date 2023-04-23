@@ -1,0 +1,229 @@
+"vim plugins
+call plug#begin()
+Plug 'preservim/nerdtree'
+Plug 'ajmwagar/vim-deus'
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
+Plug 'terryma/vim-multiple-cursors'
+call plug#end()
+
+set guioptions=
+" set number relativenumber " relative numbering is sometimes useful
+set hlsearch  
+set backspace=indent,eol,start
+set nocompatible
+set number
+set tabstop=4
+set shiftwidth=4
+set expandtab
+set colorcolumn=80
+set foldmethod=indent
+set nofoldenable      
+set mouse=a " enable mouse/scroll
+set shell=/bin/sh
+set autoindent
+set linebreak
+"set tw=80
+"set fo+=t
+
+" platform dependent options
+if system('uname')=~'Linux'
+    set guioptions+=a
+endif
+
+"set macmeta
+set t_Co=256
+colorscheme deus
+
+" dont rememeber what this does
+let g:netrw_liststyle = 3
+let g:netrw_banner = 0
+let g:netrw_browse_split = 1
+let g:netrw_winsize = 25
+" map alt arrow keys to switching between vim windows
+
+nmap  <silent>  <A-Up>     :wincmd  k<CR>
+nmap  <silent>  <A-Down>   :wincmd  j<CR>
+nmap  <silent>  <A-Left>   :wincmd  h<CR>
+nmap  <silent>  <A-Right>  :wincmd  l<CR>
+
+let c='a'
+while c <= 'z'
+    exec "set <A-".c.">=\e".c
+    exec "imap \e".c." <A-".c.">"
+    let c = nr2char(1+char2nr(c))
+endw
+set timeout ttimeoutlen=50
+
+nnoremap <A-j> :m .+1<CR>==
+nnoremap <A-k> :m .-2<CR>==
+inoremap <A-j> <Esc>:m .+1<CR>==gi
+inoremap <A-k> <Esc>:m .-2<CR>==gi
+
+noremap! <C-?> <C-H>
+vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
+
+" supress shift arrows because it's annoying
+map <S-Up> <NULL>
+map <S-Down> <NULL>
+
+" paste with middle mouse
+map! <S-Insert> <MiddleMouse>
+
+"remaps
+map <S-h> b
+map <S-l> e
+nmap <C-x> dd
+noremap <S-j> <C-e>
+noremap <S-k> <C-y>
+noremap <C-l> :noh<CR>
+noremap <C-f>  :BLines<CR>
+noremap <C-g>  :Files<CR>
+"nnoremap <C-y> :NERDTreeToggle<CR>
+nnoremap <C-y> :NERDTreeFocus<CR>
+nnoremap <C-t> :tabe<CR>
+"nnoremap <C-w> :q<CR>
+
+inoremap <C-a> <C-x><C-f>
+
+" insert date time
+nnoremap <F5> "=strftime("%c")<CR>P
+"inoremap <F5> <C-R>=strftime("%c")<CR>
+inoremap <F5> <C-R>=repeat('-', 80)<CR><C-R>=strftime(" %Y-%m-%d %H:%M:%S")<CR>
+
+
+
+" ignore case for saving out files
+cabb W w
+cabb Q q
+cabb WQ wq
+cabb Wq wq
+cabb wQ wq
+
+"comment and uncomment
+map <C-a> :call Comment()<CR>
+map <C-b> :call Uncomment()<CR>
+"map <C-w> :call CommentBlock()<CR>
+imap <C-BS> <C-W>
+" consider a more appropraite key for this
+map <C-q> :call Columnize()<CR> 
+vnoremap " :call QuoteBlock()<CR>
+
+" shortcut to compile current file if of type 'tex'
+"if &ft == 'tex'
+"    compile latex files with Ctrl + 4
+noremap <C-\> :w <bar> :!pdflatex %<CR><CR>
+"endif
+
+
+function! Columnize() range
+    " preserve starting whitespace
+    let prepend = matchstr(getline('.'), "^ *")
+    '<,'>:!perl -pe 's/\s(?=(?:(?:[^"]*"){2})*[^"]*"[^"]*$)/\@/g' | column -t | sed -E 's/( *) /\1/g' | perl -pe 's/\@/ /g'
+    '<,'>:s/^/\=prepend
+endfunction
+
+function! Comment()
+    let ft = &filetype
+    if ft == 'php' || ft == 'ruby' || ft == 'sh' || ft == 'make' || ft == 'python' || ft == 'perl' || ft == 'tcl'
+        silent s/^\(\s*\)/\1\# /
+    elseif ft == 'javascript' || ft == 'c' || ft == 'cpp' || ft == 'java' || ft == 'objc' || ft == 'scala' || ft == 'go'
+        silent s:^:\/\/:g
+    elseif ft == 'tex'
+        silent s:^:% :g
+    elseif ft == 'vim'
+        silent s:^:\":g
+    else
+        silent s/^/\# /
+    endif
+endfunction
+
+function! Uncomment()
+    let ft = &filetype
+    if ft == 'php' || ft == 'ruby' || ft == 'sh' || ft == 'make' || ft == 'python' || ft == 'perl' || ft == 'tcl'
+        silent s/^\(\s*\)\#\s/\1/
+    elseif ft == 'javascript' || ft == 'c' || ft == 'cpp' || ft == 'java' || ft == 'objc' || ft == 'scala' || ft == 'go'
+        silent s:^\/\/::g
+    elseif ft == 'tex'
+        silent s:^\s*%\s*::g
+    elseif ft == 'vim'
+        silent s:^\"::g
+    else
+        silent s/^\(\s*\)\# /\1/
+    endif
+endfunction
+
+function! QuoteBlock()
+    silent s/\%V\(.*\%V.\)/"\1"
+endfunction
+
+""""""""""""""""""""""""""""""
+" inserts a coment like this "
+""""""""""""""""""""""""""""""
+" does not work for multiple lines yet...
+" mapped to Ctrl+w
+function! CommentBlock()
+    silent s/^\s*#*\s*/# /
+    silent s/\s*#*\s*$/ #/
+    silent s/^/\r/
+    silent s/$/\r/
+    let line3 = line('.')
+    let line2 = line3 - 1
+    let line1 = line3 - 2
+    let llength = strwidth(getline(line2))
+    exe line1
+    exe ":normal i" . repeat('#', llength)
+    exe line3
+    exe ":normal i" . repeat('#', llength)
+endfunction
+
+" a work in progress
+function! Test() range
+    let firstline = line("'<")
+    let lastline = line("'>")
+
+    " get max character count
+    let maxlen = 0
+    for line in getline(firstline, lastline)
+        if strwidth(line) > maxlen
+            let maxlen = strwidth(line)
+        endif
+    endfor
+    
+    let li = firstline
+    while li <= lastline
+        exe li
+        silent s/$/ appended/
+        let li += 1
+    endwhile
+
+endfunction
+
+" round numbers
+" technically doesn't round but rather just converts to int
+command! -range Round call RoundNumbers()
+function! RoundNumbers() range
+    '<,'>:!perl -pe 's/(\d+(?:\.\d+)?)/int($1)/ge'
+endfunction
+
+function DeleteBlankLines()
+    g/^\s*$/d
+endfunction
+
+
+command -nargs=* DeleteBlankLines call DeleteBlankLines(<f-args>)
+
+"########
+"# test #
+"########
+function! GetSelection()
+  echo "in func"
+  let start = line("v")
+  echo "start: " . start
+  let end = line(".")
+  echo "end: " . end
+  let firstLine = line("'<")
+  echo "start2: " . firstLine
+  let lastLine = line("'>")
+  echo "end2: " . lastLine
+endfunction

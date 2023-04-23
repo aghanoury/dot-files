@@ -1,0 +1,92 @@
+prompt='%(?.%F{green}√.%F{red}?%?)%f %B%F{red}%2~%f%b %% '
+prompt="%F{cyan}${${(%):-%m}#zoltan-}%f "$prompt
+# source misc filesa
+source ~/.dot-files/scripts/git.sh
+path+=(~/bin/)
+path+=(~/bin/scripts/)
+path+=(~/bin/scripts/media)
+path+=(~/bin/scripts/local)
+path+=(~/bin/cad)
+
+# completions
+fpath+=(~/bin/scripts/completions)
+autoload compinit
+compinit -i
+
+setopt extendedglob
+
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+setopt appendhistory
+
+# misc env variables
+export DEFAULT_MONITOR="AW34"
+
+check_dot_files
+
+# end setup
+echo "================================================="
+
+location='los_angeles'
+# weather &
+cal -3
+
+# .zshrc containing misc aliases and functions
+alias b='brightness'
+alias c='clear'
+alias dpsa='docker ps -a'
+alias du='du -h -d 1' 
+alias files='cd ~/.samba/share'
+alias fish='asciiquarium'
+alias g='gvim'
+alias gdiff='gvimdiff'
+alias grep='grep --color=auto'
+alias heic2jpg='mogrify -format jpg *.HEIC'
+alias l='ls -ltr'
+alias la='l -a'
+alias list_commands='ls -1rt ~/bin/scripts/'
+alias ll='ls -al'
+alias ls='ls -GFh'
+alias nmap-search='sudo nmap -sn'
+alias o='open'
+alias of='open "`ff`" 2>/dev/null'
+alias opne='open' # common typo
+alias qmk_flash='qmk flash -kb dz60 -km default'
+alias refresh='source ~/.zshrc'
+alias rr='reset'
+alias say='say -v matilda'
+alias tma='tmux attach -t'
+alias tmn='tmux new -s'
+alias tmb='tmux loadb -'
+alias v='vim'
+alias vim-help='cat ~/.vim/vim-help.md'
+
+function weather () {
+#     curl -m 0.8 --connect-timeout 3  "wttr.in/${location}?0"
+    curl  --connect-timeout 3  "wttr.in/${location}?0"
+}
+
+
+
+# doesn't work on mac os
+# source /etc/zsh_command_not_found
+[ -f ~/.zshrc_override ] && source ~/.zshrc_override
+
+#export FZF_DEFAULT_COMMAND='find . -type f 2>/dev/null'
+export FZF_CTRL_T_COMMAND='find *~Library~Applications~qmk_firmware~Creative\ Cloud\ Files~Pictures notes/  2>/dev/null'
+#export FZF_CTRL_T_COMMAND='find *[^Library,Applications,Music] notes/  -type f 2>/dev/null'
+export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border --extended -i -m'
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[ -f ~/.localrc ] && source ~/.localrc
+# x11 forwarding
+
+if [[ -v TMUX ]]; then
+    npanes=$(tmux list-panes | wc -l)
+    [[ $npanes -eq 1 ]] && tmux set-option -g status-bg $((($RANDOM % 7) + 1))
+fi
+
+# zsh complete
+h=($h ${${${(@M)${(f)"$(cat ~/.ssh/config)"}:#Host *}#Host }:#*[*?]*})
+zstyle ':completion:*:ssh:*' hosts $h
+zstyle ':completion:*:scp:*' hosts $h

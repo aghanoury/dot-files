@@ -1,0 +1,14 @@
+# get fully resolved path
+#if [ -z "$1" ]; then
+#	echo "not enough arguments provided"
+#	exit
+#fi
+#
+#for i in "$@"; do
+#	cd $i
+#	pwd -P
+#	cd - > /dev/null
+#done
+
+# just use readlink
+readlink -f ${1:-.}
