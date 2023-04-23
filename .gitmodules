@@ -1,0 +1,3 @@
+[submodule "scripts/priv"]
+	path = scripts/priv
+	url = git@github.com:aghanoury/priv-scripts.git
