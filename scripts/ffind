@@ -29,7 +29,6 @@ directories="$@"
 
 # otherwise, search all directories
 if [ -z "$depth" ]; then
-    echo "depth is empty"
     find $directories -type f,d  | fzf
 else
     find $directories -maxdepth $depth  -type f,d  | fzf
