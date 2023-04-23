@@ -13,7 +13,7 @@ ln -s ~/.dot-files/configs/zshrc     ~/.zshrc
 ln -s ~/.dot-files/vim               ~/.vim
 ln -s ~/.dot-files/vim/vimrc         ~/.vimrc
 ln -s ~/.dot-files/configs/tmux.conf ~/.tmux.conf
-ln -s ~/.dot-files/notes.md          ~/notes
+ln -s ~/.dot-files/notes.md          ~/notes.md
 
 # init submodules
 git submodule update --init --recursive
