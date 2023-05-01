@@ -5,7 +5,7 @@
 # user would specify this like "-d 2" for example
 
 depth=""
-dirs="."
+directories="."
 
 # parse arguments
 # -d is the depth argument
@@ -25,7 +25,12 @@ done
 shift $((OPTIND -1))
 
 # Directories passed in as non-option arguments
-directories="$@"
+
+# if no directories are left in $@, use the current directory
+if [ -z "$@" ]; then
+    directories="."
+fi
+
 
 # otherwise, search all directories
 if [ -z "$depth" ]; then
