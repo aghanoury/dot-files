@@ -1,0 +1,64 @@
+#! /usr/bin/python
+import http.client
+import urllib
+import argparse
+import os
+import json
+
+# Create the parser
+parser = argparse.ArgumentParser(description='Send push notification to all devices')
+parser.add_argument('--app_token', nargs='?', metavar='token', type=str, 
+                    help="app token. login to pushover account and get app token")
+parser.add_argument('--user_token', nargs='?', metavar='token', type=str,
+                    help="user token. login to pushover account and get user token")
+parser.add_argument('--title', nargs='?', metavar='title', default="Notification 💯 💵", type=str, help="title of notification")
+parser.add_argument('message', metavar='message', type=str, help="a string to send to client. use quotes! see ")
+args = parser.parse_args()
+
+conn = http.client.HTTPSConnection("api.pushover.net:443")
+
+app_token = args.app_token
+user_token = args.user_token
+
+# if neither app_token or user_token are provided, use the token file
+if not app_token or not user_token:
+
+    home = os.path.expanduser("~")
+    token_file = os.path.join(home, ".pushover_tokens.json")
+    if os.path.isfile(token_file):
+        with open(token_file, 'r') as f:
+            t = f.read()
+    else:
+        raise("No token file found. Please create a token file in your home directory named .pushover_tokens.json")
+
+    tokens = json.loads(t)
+    app_token = tokens['app_token']
+    user_token = tokens['user_token']
+
+# send the request
+conn.request("POST", "/1/messages.json",
+    urllib.parse.urlencode({
+    "token": app_token,
+    "user": user_token,
+    "title": args.title,
+    "message": args.message,
+    }), { "Content-type": "application/x-www-form-urlencoded" })
+conn.getresponse()
+
+# old shell example
+# # !/bin/bash
+# Send push notification to all devices
+# message=$1
+
+# # if message is empty, print error and exit
+# if [ -z "$message" ]
+# then
+#   echo "Error: No message provided"
+#   exit 1
+# fi
+
+# curl -s \
+#   --form-string "token=$app_TOKEN" \
+#   --form-string "user=$user_TOKEN" \
+#   --form-string "message=$message" \
+#   https://api.pushover.net/1/messages.json
