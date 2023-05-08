@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#! /usr/bin/python3
 import http.client
 import urllib
 import argparse
@@ -12,7 +12,7 @@ parser.add_argument('--app_token', nargs='?', metavar='token', type=str,
 parser.add_argument('--user_token', nargs='?', metavar='token', type=str,
                     help="user token. login to pushover account and get user token")
 parser.add_argument('--title', nargs='?', metavar='title', default="Notification 💯 💵", type=str, help="title of notification")
-parser.add_argument('message', metavar='message', type=str, help="a string to send to client. use quotes! see ")
+parser.add_argument('message', metavar='message', nargs='+',type=str, help="a string to send to client. use quotes!")
 args = parser.parse_args()
 
 conn = http.client.HTTPSConnection("api.pushover.net:443")
@@ -35,13 +35,21 @@ if not app_token or not user_token:
     app_token = tokens['app_token']
     user_token = tokens['user_token']
 
+
+message = args.message
+# if message is a list, turn it into a string
+if isinstance(message, list):
+    message = " ".join(message)
+
+
+
 # send the request
 conn.request("POST", "/1/messages.json",
     urllib.parse.urlencode({
     "token": app_token,
     "user": user_token,
     "title": args.title,
-    "message": args.message,
+    "message": message,
     }), { "Content-type": "application/x-www-form-urlencoded" })
 conn.getresponse()
 

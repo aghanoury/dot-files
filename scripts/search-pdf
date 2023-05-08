@@ -1,7 +1,8 @@
 #! /bin/sh
 #pdftotext ${@:-*} - | fzf
 # pdftotext $1 - | fzf
-for i in $@; do
-    fname=$i
-    pdftotext $1 - | awk -v fname=$fname '{print fname":", $0}'
+for i in "$@"; do
+    fname="$i"
+    echo $fname
+    pdftotext "$fname" - | awk -v n="$fname" '{print n":", $0}'
 done | fzf
