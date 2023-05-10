@@ -5,3 +5,4 @@ scripts/local/*
 *.swp
 vim/.*
 .DS_Store
+.vscode
