@@ -1,0 +1,88 @@
+#! /usr/bin/python3
+import argparse
+import re
+import os
+import json
+import subprocess
+from pushover import Pushover
+import datetime
+
+
+parser = argparse.ArgumentParser(description="Set a push notification reminder")
+# parser.add_argument('--app_token', nargs='?', metavar='token', type=str,
+#                     help="app token. login to pushover account and get app token")
+# parser.add_argument('--user_token', nargs='?', metavar='token', type=str,
+# help="user token. login to pushover account and get user token")
+# parser.add_argument(
+#     "--title",
+#     nargs="?",
+#     metavar="title",
+#     default="Reminder ✅",
+#     type=str,
+#     help="title of notification",
+# )
+# parser.add_argument('message', metavar='message', type=str, help="a string to send to client. use quotes!")
+parser.add_argument(
+    "prompt",
+    metavar="time_string",
+    nargs="+",
+    type=str,
+    help="a string to send to client",
+)
+
+args = parser.parse_args()
+prompt_string = " ".join(args.prompt)
+
+# p = Pushover()
+# p.parse_token_json(os.path.join(os.path.expanduser("~"), ".pushover_tokens.json"))
+# p.title = args.title
+
+# parse time string
+# user can enter a time string like "in 5 minutes" or "at 5:30pm"
+
+# if time string is "in 5 minutes"
+# then we need to get the current time, add 5 minutes, and then set the reminder
+# if time string is "at 5:30pm"
+# then we need to just get that time
+tre = re.compile(r"(.*)at\s+(\d+):(\d+)\s*(am|pm)")
+tre2 = re.compile(r"(.*)in\s+(\d+)\s+(\S+)")
+m1 = tre.findall(prompt_string)
+m2 = tre2.findall(prompt_string)
+
+print(prompt_string)
+
+current_time = datetime.datetime.now()
+future_time = None
+
+if m1:
+    mes = m1[0][0]
+    h = m1[0][1]
+    m = m1[0][2]
+    ampm = m1[0][3]
+
+    sp_cmd = "echo sendpush {}".format(mes)
+    at_cmd = "at {}:{}{}".format(h, m, ampm)
+
+    print(at_cmd)
+
+    ps = subprocess.Popen(sp_cmd.split(), stdout=subprocess.PIPE)
+    subprocess.run(at_cmd.split(), stdin=ps.stdout)
+
+    # print(m1[0][0], m1[0][1], m1[0][2])
+if m2:
+    m = m2[0][0]
+    v = m2[0][1]
+    u = m2[0][2]
+    # subprocess.run(["sendpush", m, "now", "+", v, u])
+
+    # ps = subprocess.Popen(("echo", '"sendpush {}"'.format(m)), stdout=subprocess.PIPE)
+    sp_cmd = "echo sendpush {}".format(m)
+    at_cmd = "at now + {} {}".format(v, u)
+
+    # print(sp_cmd)
+    # print(at_cmd)
+    ps = subprocess.Popen(sp_cmd.split(), stdout=subprocess.PIPE)
+    subprocess.run(at_cmd.split(), stdin=ps.stdout)
+    # print(v, u)
+    # future_time = current_time + datetime.timedelta(minutes=int(m2[0]))
+    # print(future_time)

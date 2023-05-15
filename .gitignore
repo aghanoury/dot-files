@@ -6,3 +6,4 @@ scripts/local/*
 vim/.*
 .DS_Store
 .vscode
+*__pycache__*
