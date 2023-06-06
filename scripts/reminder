@@ -4,7 +4,6 @@ import re
 import os
 import json
 import subprocess
-from pushover import Pushover
 import datetime
 
 
@@ -33,12 +32,11 @@ parser.add_argument(
 args = parser.parse_args()
 prompt_string = " ".join(args.prompt)
 
-# p = Pushover()
-# p.parse_token_json(os.path.join(os.path.expanduser("~"), ".pushover_tokens.json"))
-# p.title = args.title
 
 # parse time string
 # user can enter a time string like "in 5 minutes" or "at 5:30pm"
+
+# TODO: add ability to accept dates
 
 # if time string is "in 5 minutes"
 # then we need to get the current time, add 5 minutes, and then set the reminder
@@ -63,26 +61,20 @@ if m1:
     sp_cmd = "echo sendpush {}".format(mes)
     at_cmd = "at {}:{}{}".format(h, m, ampm)
 
-    print(at_cmd)
-
     ps = subprocess.Popen(sp_cmd.split(), stdout=subprocess.PIPE)
     subprocess.run(at_cmd.split(), stdin=ps.stdout)
 
-    # print(m1[0][0], m1[0][1], m1[0][2])
-if m2:
+elif m2:
     m = m2[0][0]
     v = m2[0][1]
     u = m2[0][2]
-    # subprocess.run(["sendpush", m, "now", "+", v, u])
 
-    # ps = subprocess.Popen(("echo", '"sendpush {}"'.format(m)), stdout=subprocess.PIPE)
     sp_cmd = "echo sendpush {}".format(m)
     at_cmd = "at now + {} {}".format(v, u)
 
-    # print(sp_cmd)
-    # print(at_cmd)
     ps = subprocess.Popen(sp_cmd.split(), stdout=subprocess.PIPE)
     subprocess.run(at_cmd.split(), stdin=ps.stdout)
-    # print(v, u)
-    # future_time = current_time + datetime.timedelta(minutes=int(m2[0]))
-    # print(future_time)
+else:
+    print("ERROR: unable to parse time string")
+    print("time string must be in the form of 'in 5 minutes' or 'at 5:30pm'")
+    exit(1)
