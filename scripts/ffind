@@ -34,7 +34,7 @@ fi
 
 # otherwise, search all directories
 if [ -z "$depth" ]; then
-    find $directories -type f,d  | fzf
+    find $directories -type f,d 2>/dev/null | fzf
 else
-    find $directories -maxdepth $depth  -type f,d  | fzf
+    find $directories -maxdepth $depth  -type f,d  2>/dev/null | fzf
 fi
