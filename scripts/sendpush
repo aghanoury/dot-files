@@ -75,6 +75,7 @@ conn.request(
             "token": app_token,
             "user": user_token,
             "title": args.title,
+            "html": 1,
             "message": message,
         }
     ),
