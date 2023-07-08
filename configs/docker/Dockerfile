@@ -1,7 +1,7 @@
 FROM ubuntu:latest
 
 RUN apt-get -y update
-RUN apt-get install -y vim git zsh wget tmux curl unzip sudo
+RUN apt-get install -y vim git zsh wget tmux curl unzip sudo gnupg
 
 COPY .dot-files /root/dot-files
 COPY .localrc /root/.localrc
