@@ -39,6 +39,7 @@ alias dpsa='docker ps -a'
 alias du='du -h -d 1' 
 alias files='cd ~/.samba/share'
 alias fish='asciiquarium'
+#alias vim='nvim'
 alias g='gvim'
 alias gdiff='gvimdiff'
 alias grep='grep --color=auto'
@@ -90,3 +91,4 @@ fi
 h=($h ${${${(@M)${(f)"$(cat ~/.ssh/config)"}:#Host *}#Host }:#*[*?]*})
 zstyle ':completion:*:ssh:*' hosts $h
 zstyle ':completion:*:scp:*' hosts $h
+
