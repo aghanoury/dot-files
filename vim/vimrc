@@ -1,10 +1,10 @@
-"vim plugins
+" vim plugins
 call plug#begin()
-Plug 'preservim/nerdtree'
-Plug 'ajmwagar/vim-deus'
-Plug 'junegunn/fzf'
-Plug 'junegunn/fzf.vim'
-Plug 'terryma/vim-multiple-cursors'
+    Plug 'preservim/nerdtree'
+    Plug 'ajmwagar/vim-deus'
+    Plug 'junegunn/fzf'
+    Plug 'junegunn/fzf.vim'
+    Plug 'terryma/vim-multiple-cursors'
 call plug#end()
 
 set guioptions=
@@ -23,6 +23,9 @@ set mouse=a " enable mouse/scroll
 set shell=/bin/sh
 set autoindent
 set linebreak
+"set clipboard+=unnamedplus
+set relativenumber
+set clipboard=unnamed
 "set tw=80
 "set fo+=t
 
@@ -34,6 +37,18 @@ endif
 "set macmeta
 set t_Co=256
 colorscheme deus
+
+" fix deus colors in terminal
+"set t_Co=256
+"set termguicolors
+"
+"let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+"let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+"
+"set background=dark    " Setting dark mode
+"colorscheme deus
+"let g:deus_termcolors=256
+"
 
 " dont rememeber what this does
 let g:netrw_liststyle = 3
@@ -47,13 +62,13 @@ nmap  <silent>  <A-Down>   :wincmd  j<CR>
 nmap  <silent>  <A-Left>   :wincmd  h<CR>
 nmap  <silent>  <A-Right>  :wincmd  l<CR>
 
-let c='a'
-while c <= 'z'
-    exec "set <A-".c.">=\e".c
-    exec "imap \e".c." <A-".c.">"
-    let c = nr2char(1+char2nr(c))
-endw
-set timeout ttimeoutlen=50
+"let c='a'
+"while c <= 'z'
+"    exec "set <A-".c.">=\e".c
+"    exec "imap \e".c." <A-".c.">"
+"    let c = nr2char(1+char2nr(c))
+"endw
+"set timeout ttimeoutlen=50
 
 nnoremap <A-j> :m .+1<CR>==
 nnoremap <A-k> :m .-2<CR>==
@@ -133,6 +148,8 @@ function! Comment()
         silent s:^:% :g
     elseif ft == 'vim'
         silent s:^:\":g
+    elseif ft == 'lua'
+        silent :s:\(\s\?\)\(\S\):\1-- \2
     else
         silent s/^/\# /
     endif
@@ -143,11 +160,13 @@ function! Uncomment()
     if ft == 'php' || ft == 'ruby' || ft == 'sh' || ft == 'make' || ft == 'python' || ft == 'perl' || ft == 'tcl'
         silent s/^\(\s*\)\#\s/\1/
     elseif ft == 'javascript' || ft == 'c' || ft == 'cpp' || ft == 'java' || ft == 'objc' || ft == 'scala' || ft == 'go'
-        silent s:^\/\/::g
+        silent s:^\/\/::
     elseif ft == 'tex'
-        silent s:^\s*%\s*::g
+        silent s:^\s*%\s*::
     elseif ft == 'vim'
-        silent s:^\"::g
+        silent s:^\"::
+    elseif ft == 'lua'
+        silent s:--\s\?::
     else
         silent s/^\(\s*\)\# /\1/
     endif
