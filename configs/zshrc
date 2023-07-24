@@ -22,6 +22,7 @@ setopt appendhistory
 
 # misc env variables
 export DEFAULT_MONITOR="AW34"
+export GPG_TTY=$(tty)
 
 check_dot_files
 
