@@ -62,6 +62,7 @@ alias tma='tmux attach -t'
 alias tmn='tmux new -s'
 alias tmb='tmux loadb -'
 alias v='vim'
+alias n='vim'
 alias vim-help='cat ~/.vim/vim-help.md'
 
 function weather () {
