@@ -51,7 +51,7 @@ if not app_token or not user_token:
         with open(token_file, "r") as f:
             t = f.read()
     else:
-        raise (
+        raise FileNotFoundError (
             "No token file found. Please create a token file in your home directory named .pushover_tokens.json"
         )
 
