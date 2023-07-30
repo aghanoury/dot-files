@@ -23,6 +23,7 @@ setopt appendhistory
 # misc env variables
 export DEFAULT_MONITOR="AW34"
 export GPG_TTY=$(tty)
+export TERM=screen-256color
 
 check_dot_files
 
@@ -64,6 +65,7 @@ alias tmb='tmux loadb -'
 alias v='vim'
 alias n='vim'
 alias vim-help='cat ~/.vim/vim-help.md'
+alias sendpushexit='sendpush "Job done with exit code $?"'
 
 function weather () {
 #     curl -m 0.8 --connect-timeout 3  "wttr.in/${location}?0"
