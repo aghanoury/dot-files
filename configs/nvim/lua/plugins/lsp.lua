@@ -10,22 +10,24 @@ return {
   --     },
   --   },
   -- },
-  {
-    "scalameta/nvim-metals",
-    dependencies = { "nvim-lua/plenary.nvim", "mfussenegger/nvim-dap", }
-  },
+  -- {
+  --   "mfussenegger/nvim-dap",
+  -- },
+  -- {
+  --   "scalameta/nvim-metals",
+  --   dependencies = { "nvim-lua/plenary.nvim", "mfussenegger/nvim-dap" },
+  -- },
   {
     "neovim/nvim-lspconfig",
     ---@class PluginLspOpts
     dependencies = {
-      "williamboman/mason.nvim"
+      "williamboman/mason.nvim",
     },
     opts = {
       ---@type lspconfig.options
       servers = {
         -- pyright will be automatically installed with mason and loaded with lspconfig
         pyright = {},
-
       },
     },
   },
