@@ -7,6 +7,10 @@
 depth=""
 directories="."
 
+# set up base 'find' command
+base_cmd="find"
+fzf_cmd="fzf"
+
 
 function display_usage() {
     echo "Usage: $0 [-depth <depth>] [directory]"
@@ -34,18 +38,18 @@ done
 
 shift $((OPTIND -1))
 
-# Directories passed in as non-option arguments
-
-if [ -z "$@" ]; then
-    true
-else
-    directories="$@"
+# if depth was specificied, add the option to the base_cmd
+if [ -n "$depth" ]; then
+    base_cmd="$base_cmd -maxdepth $depth"
 fi
+base_cmd="$base_cmd -type f,d"
+base_cmd="$base_cmd 2>/dev/null"
+# execute base cmd and pipe into fzf 
+eval "$base_cmd" | "$fzf_cmd"
 
-# otherwise, search all directories
-if [ -z "$depth" ]; then
-#     find $directories -type f,d \( -path './Library' \) -prune -o -print 2>/dev/null | fzf
-    find $directories -type f,d -not \( -path './Library/*' \) 2>/dev/null | fzf
-else
-    find $directories -maxdepth $depth -type f,d -not \( -path './Library/*' \)  2>/dev/null | fzf
-fi
+# if [ -z "$depth" ]; then
+# #     find $directories -type f,d \( -path './Library' \) -prune -o -print 2>/dev/null | fzf
+#     find $directories -type f,d -not \( -path './Library/*' \) 2>/dev/null | fzf
+# else
+#     find $directories -maxdepth $depth -type f,d -not \( -path './Library/*' \)  2>/dev/null | fzf
+# fi
