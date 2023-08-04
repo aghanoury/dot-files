@@ -35,10 +35,10 @@ local function map(mode, lhs, rhs, opts)
   end
 end
 
-map("n", "<C-S-Up>", "<cmd>resize +2<cr>", { desc = "Increase window height", remap = true })
-map("n", "<C-S-Down>", "<cmd>resize -2<cr>", { desc = "Decrease window height" })
-map("n", "<C-S-Left>", "<cmd>vertical resize -2<cr>", { desc = "Decrease window width" })
-map("n", "<C-S-Right>", "<cmd>vertical resize +2<cr>", { desc = "Increase window width" })
+map("n", "<S-Up>", "<cmd>resize +2<cr>", { desc = "Increase window height", remap = true })
+map("n", "<S-Down>", "<cmd>resize -2<cr>", { desc = "Decrease window height" })
+map("n", "<S-Left>", "<cmd>vertical resize -2<cr>", { desc = "Decrease window width" })
+map("n", "<S-Right>", "<cmd>vertical resize +2<cr>", { desc = "Increase window width" })
 
 -- other movement stuff
 -- remap buffer moving
@@ -52,3 +52,6 @@ map({ "n", "v" }, "<S-h>", "b", { desc = "move back a word" })
 map({ "n", "v" }, "<S-l>", "e", { desc = "move forward a word" })
 map({ "n", "v" }, "J", "<C-e>", { desc = "move window down a line", remap = true })
 map({ "n", "v" }, "K", "<C-y>", { desc = "move window up a line", remap = true })
+
+-- delete full word on delete
+map("i", "<M-BS>", "<C-w>", { desc = "Delete preceding word", remap = true })
