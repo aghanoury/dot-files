@@ -45,8 +45,10 @@ map("n", "<C-S-Right>", "<cmd>vertical resize +2<cr>", { desc = "Increase window
 map("n", "<C-S-h>", "<cmd>BufferLineCyclePrev<cr>", { desc = "Prev buffer", remap = true })
 map("n", "<C-S-l>", "<cmd>BufferLineCycleNext<cr>", { desc = "Next buffer", remap = true })
 
+-- remove old LSP keymap
+
 -- remap S-h/i to jump words
 map({ "n", "v" }, "<S-h>", "b", { desc = "move back a word" })
 map({ "n", "v" }, "<S-l>", "e", { desc = "move forward a word" })
-map({ "n", "v" }, "<S-j>", "<C-e>", { desc = "move window down a line", remap = true })
-map({ "n", "v" }, "<S-k>", "<C-y>", { desc = "move window up a line", remap = true })
+map({ "n", "v" }, "J", "<C-e>", { desc = "move window down a line", remap = true })
+map({ "n", "v" }, "K", "<C-y>", { desc = "move window up a line", remap = true })

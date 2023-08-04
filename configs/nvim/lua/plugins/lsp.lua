@@ -1,4 +1,35 @@
 return {
+  {
+    "nvim-treesitter/nvim-treesitter",
+    opts = {
+      ensure_installed = {
+        "bash",
+        "html",
+        "javascript",
+        "json",
+        "lua",
+        "markdown",
+        "markdown_inline",
+        "python",
+        "query",
+        "regex",
+        "tsx",
+        "typescript",
+        "vim",
+        "yaml",
+        "scala",
+        "toml",
+      },
+    },
+    {
+      "neovim/nvim-lspconfig",
+      init = function()
+        local keys = require("lazyvim.plugins.lsp.keymaps").get()
+        -- disable a keymap
+        keys[#keys + 1] = { "K", false }
+      end,
+    },
+  },
   -- {
   --   "williamboman/mason.nvim",
   --   opts = {
