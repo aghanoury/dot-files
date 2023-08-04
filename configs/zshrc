@@ -38,7 +38,7 @@ cal -3
 alias b='brightness'
 alias c='clear'
 alias dpsa='docker ps -a'
-alias du='du -h -d 1' 
+# alias du='du -h -d 1' 
 alias files='cd ~/.samba/share'
 alias fish='asciiquarium'
 alias vim='nvim'
@@ -70,6 +70,10 @@ alias sendpushexit='sendpush "Job done with exit code $?"'
 function weather () {
 #     curl -m 0.8 --connect-timeout 3  "wttr.in/${location}?0"
     curl  --connect-timeout 3  "wttr.in/${location}?0"
+}
+
+function du () {
+    /bin/du -h -d 1 $1 2>/dev/null
 }
 
 
