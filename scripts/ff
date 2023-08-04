@@ -11,14 +11,6 @@ directories="."
 base_cmd="find"
 fzf_cmd="fzf"
 
-
-function display_usage() {
-    echo "Usage: $0 [-depth <depth>] [directory]"
-    echo "Options:"
-    echo "  -depth <depth>    Limit the search to the specified depth."
-    exit 1
-}
-
 # parse arguments
 # -d is the depth argument
 # all other arguments should be directories and will be searched
@@ -30,7 +22,6 @@ while getopts ":d:" opt; do
       ;;
     \?)
       echo "Invalid option: -$OPTARG" >&2
-      display_usage
       exit 1
       ;;
   esac
