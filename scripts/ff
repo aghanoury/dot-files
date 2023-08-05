@@ -29,11 +29,20 @@ done
 
 shift $((OPTIND -1))
 
+# leftover arguments are now directorys to search
+# check if there are remaining arguments
+# if so, replace directories with them
+if [ $# -gt 0 ]; then
+  echo "searching the following locations: ${@:-.}"
+    directories="$@"
+fi
+
+
 # if depth was specificied, add the option to the base_cmd
 if [ -n "$depth" ]; then
     base_cmd="$base_cmd -maxdepth $depth"
 fi
-base_cmd="$base_cmd -type f,d"
+base_cmd="$base_cmd $directories -type f,d"
 base_cmd="$base_cmd 2>/dev/null"
 # execute base cmd and pipe into fzf 
 eval "$base_cmd" | "$fzf_cmd"
