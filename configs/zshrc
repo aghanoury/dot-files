@@ -77,15 +77,15 @@ function du () {
 }
 
 
-
 # doesn't work on mac os
 # source /etc/zsh_command_not_found
 [ -f ~/.zshrc_override ] && source ~/.zshrc_override
 
 #export FZF_DEFAULT_COMMAND='find . -type f 2>/dev/null'
 # TODO: use fd instead of find
+
+
 export FZF_CTRL_T_COMMAND='fd'
-#export FZF_CTRL_T_COMMAND='find *[^Library,Applications,Music] notes/  -type f 2>/dev/null'
 export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border --extended -i -m'
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/.localrc ] && source ~/.localrc
