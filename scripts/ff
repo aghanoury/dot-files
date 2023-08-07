@@ -4,6 +4,7 @@
 # optional argument to specify depth of search
 # user would specify this like "-d 2" for example
 
+
 depth=""
 directories="."
 
@@ -35,6 +36,17 @@ shift $((OPTIND -1))
 if [ $# -gt 0 ]; then
   echo "searching the following locations: ${@:-.}"
     directories="$@"
+fi
+
+# NOTE: fd is a faster alternative to find. but not all machines will have it installed
+# if `fd` is not installed, use `find` instead
+if ! command -v fd &> /dev/null
+then
+    echo "fd could not be found, using find instead"
+else
+    fd_cmd='fd -tf -td ".*" | fzf'
+    eval "$fd_cmd"
+    exit $?
 fi
 
 
