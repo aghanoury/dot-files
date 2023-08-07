@@ -54,4 +54,4 @@ map({ "n", "v" }, "J", "<C-e>", { desc = "move window down a line", remap = true
 map({ "n", "v" }, "K", "<C-y>", { desc = "move window up a line", remap = true })
 
 -- delete full word on delete
-map("i", "<M-BS>", "<C-w>", { desc = "Delete preceding word", remap = true })
+map("i", "<A-BS>", "<C-w>", { desc = "Delete preceding word", remap = true })
