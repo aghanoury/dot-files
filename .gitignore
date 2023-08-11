@@ -7,3 +7,4 @@ vim/.*
 .DS_Store
 .vscode
 *__pycache__*
+configs/nvim/lazy-lock.json
