@@ -1,6 +1,7 @@
-# if 1 or more arguments are passed, treat the 
-# arguments as files
-# otherwise pass --r flag as a recursive approach for the cwd
-# TODO: handle directory as arguments
-# if a directory is passed
+# /bin/sh
+# TODO: handle a directory as an argument
+
+# if ripgrep is installed
+[ -x "$(command -v rg)" ] && rg -n -H ".*" ${@:-} | fzf; exit
+
 grep -sEn ".*" ${@:--r} | fzf
