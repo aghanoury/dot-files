@@ -82,11 +82,12 @@ function du () {
 [ -f ~/.zshrc_override ] && source ~/.zshrc_override
 
 #export FZF_DEFAULT_COMMAND='find . -type f 2>/dev/null'
-# TODO: use fd instead of find
 
 
 export FZF_CTRL_T_COMMAND='fd'
 export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border --extended -i -m'
+# export FZF_DEFAULT_COMMAND='find . -type f 2>/dev/null'
+
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/.localrc ] && source ~/.localrc
 # x11 forwarding
