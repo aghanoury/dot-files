@@ -17,6 +17,16 @@ ln -s ~/.dot-files/configs/tmux.conf ~/.tmux.conf
 ln -s ~/.dot-files/notes.md ~/notes.md
 ln -s ~/.dot-files/configs/nvim ~/.config/nvim
 
+# check if nvim is installed.
+if command -v nvim >/dev/null 2>&1; then
+	echo "nvim is installed"
+else
+	echo "nvim is not installed"
+	echo "installing nvim"
+	curl -o ~/bin/nvim -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
+	chmod u+x ~/bin/nvim
+fi
+
 # init submodules
 git submodule update --init --recursive
 
