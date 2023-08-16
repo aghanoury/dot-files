@@ -4,7 +4,6 @@ call plug#begin()
     Plug 'ajmwagar/vim-deus'
     Plug 'junegunn/fzf'
     Plug 'junegunn/fzf.vim'
-    Plug 'terryma/vim-multiple-cursors'
 call plug#end()
 
 set guioptions=
@@ -50,6 +49,17 @@ colorscheme deus
 "let g:deus_termcolors=256
 "
 
+
+let mapleader = " "
+map <leader>h :noh<CR>
+nnoremap <leader>e :NERDTreeToggle<CR>
+nnoremap <leader>qq :qa<CR>
+nnoremap <C-h> :wincmd h<CR>
+nnoremap <C-j> :wincmd j<CR>
+nnoremap <C-k> :wincmd k<CR>
+nnoremap <C-l> :wincmd l<CR>
+
+
 " dont rememeber what this does
 let g:netrw_liststyle = 3
 let g:netrw_banner = 0
@@ -91,7 +101,7 @@ map <S-l> e
 nmap <C-x> dd
 noremap <S-j> <C-e>
 noremap <S-k> <C-y>
-noremap <C-l> :noh<CR>
+"noremap <C-l> :noh<CR>
 noremap <C-f>  :BLines<CR>
 noremap <C-g>  :Files<CR>
 "nnoremap <C-y> :NERDTreeToggle<CR>
