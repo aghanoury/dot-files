@@ -1,0 +1,9 @@
+{
+  "log": {
+    "prefix": "log",
+    "body": [
+      "[${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE} ${CURRENT_HOUR}:${CURRENT_MINUTE}]: ${1:log_message}"
+    ],
+    "description": "set the date and time and start loggin"
+  }
+}

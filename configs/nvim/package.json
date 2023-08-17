@@ -1,0 +1,12 @@
+{
+  "name": "custom-snippets",
+  "author": "aghanoury",
+  "contributes": {
+    "snippets": [
+      {
+        "language": "all",
+        "path": "./snips/global.json"
+      }
+    ]
+  }
+}
