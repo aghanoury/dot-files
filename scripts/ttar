@@ -1,7 +1,15 @@
 #! /bin/sh
 
-printf "enter a target zip: "
+printf "enter a target zip (leave blank for default): "
 read target
+
+# if the target input is blank, then create a name
+# based on the current date and time prefixed by "compressed_"
+if [ -z "$target" ]; then
+	echo "WARNING: no target name provided"
+	target="compressed_$(date +%Y%m%d_%H%M%S)"
+	echo "defaulting to -> $target"
+fi
 
 echo "INFO: compress files to -> $target"
 
