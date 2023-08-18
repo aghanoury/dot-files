@@ -59,7 +59,7 @@ alias qmk_flash='qmk flash -kb dz60 -km default'
 alias refresh='source ~/.zshrc'
 alias rr='reset'
 alias say='say -v matilda'
-alias tma='tmux attach -t'
+alias tma='tmux -u attach -t'
 alias tmn='tmux -u new -s'
 alias tmb='tmux loadb -'
 alias v='vim'
@@ -92,10 +92,10 @@ export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border --extended -i -m
 [ -f ~/.localrc ] && source ~/.localrc
 # x11 forwarding
 
-if [[ -v TMUX ]]; then
-    npanes=$(tmux list-panes | wc -l)
-    [[ $npanes -eq 1 ]] && tmux set-option -g status-bg $((($RANDOM % 7) + 1))
-fi
+# if [[ -v TMUX ]]; then
+#     npanes=$(tmux list-panes | wc -l)
+#     [[ $npanes -eq 1 ]] && tmux set-option -g status-bg $((($RANDOM % 7) + 1))
+# fi
 
 # zsh complete
 h=($h ${${${(@M)${(f)"$(cat ~/.ssh/config)"}:#Host *}#Host }:#*[*?]*})
