@@ -9,6 +9,7 @@ call plug#end()
 set guioptions=
 " set number relativenumber " relative numbering is sometimes useful
 set hlsearch  
+set is hls
 set backspace=indent,eol,start
 set nocompatible
 set number
