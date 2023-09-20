@@ -46,7 +46,7 @@ return {
   -- },
   -- {
   --   "scalameta/nvim-metals",
-  --   dependencies = { "nvim-lua/plenary.nvim", "mfussenegger/nvim-dap" },
+  --   dependencies = { "nvim-lua/plenary.nvim", sg "mfussenegger/nvim-dap" },
   -- },
   {
     "neovim/nvim-lspconfig",
@@ -61,5 +61,16 @@ return {
         pyright = {},
       },
     },
+  },
+  {
+    "jose-elias-alvarez/null-ls.nvim",
+    require("null-ls").setup({
+      sources = {
+        require("null-ls").builtins.formatting.prettier,
+        require("null-ls").builtins.formatting.prettier.with({
+          filetypes = { "javascript", "typescript", "json", "yaml", "html", "css", "scss", "markdown" },
+        }),
+      },
+    }),
   },
 }
