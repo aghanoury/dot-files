@@ -1,0 +1,35 @@
+#! /bin/sh
+
+# Record the start time
+start_time=$(date +%s)
+
+# Execute the provided command with its arguments
+eval "$@"
+
+# Capture the exit code of the executed command
+exit_code=$?
+
+# Calculate the execution time
+end_time=$(date +%s)
+execution_time=$(($end_time - $start_time))
+
+# Convert execution time to hours, minutes, and seconds
+hours=$((execution_time / 3600))
+minutes=$(( (execution_time % 3600) / 60 ))
+seconds=$((execution_time % 60))
+
+# Format the execution time as a string
+formatted_time=$(printf "%02d:%02d:%02d" "$hours" "$minutes" "$seconds")
+
+# sendpush --title "Job Finished" "Job $@ finished with exit code $exit_code in $formatted_time seconds"
+
+# send a push with the execution time and exit code, and only the first argument of the executed command
+sendpush --title "Job Finished" "Job \"$1\" finished with exit code $exit_code in $formatted_time seconds"
+
+# Print the execution time and exit code
+echo "Execution Time: $execution_time seconds"
+echo "Exit Code: $exit_code"
+
+# Exit with the same exit code as the executed command
+exit $exit_code
+
