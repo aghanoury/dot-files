@@ -44,7 +44,7 @@ if ! command -v fd &> /dev/null
 then
     echo "fd could not be found, using find instead"
 else
-    fd_cmd='fd -tf -td ".*" | fzf'
+    fd_cmd='fd --no-ignore -tf -td ".*" | fzf'
     eval "$fd_cmd"
     exit $?
 fi
