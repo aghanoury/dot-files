@@ -62,15 +62,16 @@ return {
       },
     },
   },
-  {
-    "jose-elias-alvarez/null-ls.nvim",
-    require("null-ls").setup({
-      sources = {
-        require("null-ls").builtins.formatting.prettier,
-        require("null-ls").builtins.formatting.prettier.with({
-          filetypes = { "javascript", "typescript", "json", "yaml", "html", "css", "scss", "markdown" },
-        }),
-      },
-    }),
-  },
+  -- {
+  --   -- "jose-elias-alvarez/null-ls.nvim",
+  --   "nvimtools/none-ls.nvim",
+  --   require("none-ls").setup({
+  --     sources = {
+  --       require("none-ls").builtins.formatting.prettier,
+  --       require("none-ls").builtins.formatting.prettier.with({
+  --         filetypes = { "javascript", "typescript", "json", "yaml", "html", "css", "scss", "markdown" },
+  --       }),
+  --     },
+  --   }),
+  -- },
 }
