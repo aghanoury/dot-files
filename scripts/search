@@ -2,6 +2,6 @@
 # TODO: handle a directory as an argument
 
 # if ripgrep is installed
-[ -x "$(command -v rg)" ] && rg -n -H ".*" ${@:-} | fzf; exit
+[ -x "$(command -v rg)" ] && rg --no-ignore -n -H ".*" ${@:-} | fzf; exit
 
 grep -sEn ".*" ${@:--r} | fzf
