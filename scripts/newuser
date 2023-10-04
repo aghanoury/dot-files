@@ -1,0 +1,17 @@
+#! /bin/sh
+
+# prompt for username
+read -p "Enter the username: " username
+sudo adduser $username
+
+# ask if they should get sudo privileges
+read -p "Should this user get sudo privileges? (y/n): " sudopriv
+if [ $sudopriv = "y" ]; then
+	sudo usermod -aG sudo $username
+fi
+
+# prompt the user if they would like to make this new user change on first attempt
+read -p "Should this user change their password on first attempt? (y/n): " chpass
+if [ $chpass = "y" ]; then
+	sudo chage -d 0 $username
+fi
