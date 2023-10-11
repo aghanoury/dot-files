@@ -11,18 +11,35 @@ directories="."
 # set up base 'find' command
 base_cmd="find"
 fzf_cmd="fzf"
+ignore=0
+
+# add a usage block
+usage() {
+    echo "Usage: $0 [-i] [-d <depth>] [directories...]" 1>&2
+    echo "  -i: ignore .gitignore files" 1>&2
+    echo "  -d: specify depth of search" 1>&2
+    echo "  directories: directories to search" 1>&2
+    exit 1
+}
 
 # parse arguments
 # -d is the depth argument
 # all other arguments should be directories and will be searched
 # if no directories are specified, the current directory will be searched
-while getopts ":d:" opt; do
+while getopts "ihd:" opt; do
   case $opt in
+    i)
+      ignore=1
+      ;;
     d)
       depth="$OPTARG"
       ;;
+    h)
+      usage
+      ;;
     \?)
       echo "Invalid option: -$OPTARG" >&2
+      usage
       exit 1
       ;;
   esac
@@ -44,7 +61,14 @@ if ! command -v fd &> /dev/null
 then
     echo "fd could not be found, using find instead"
 else
-    fd_cmd='fd --no-ignore -tf -td ".*" | fzf'
+    # fd_cmd='fd --no-ignore -tf -td ".*" | fzf'
+    # if ingore is 1, add the --no-ignore flag to the fd command
+    if [ $ignore -eq 1 ]; then
+        fd_cmd='fd --no-ignore -tf -td ".*" | fzf'
+    else
+        fd_cmd='fd -tf -td ".*" | fzf'
+    fi
+    # fd_cmd='fd -tf -td ".*" | fzf'
     eval "$fd_cmd"
     exit $?
 fi
