@@ -3,6 +3,12 @@ return {
     "folke/tokyonight.nvim",
     lazy = true,
     opts = { style = "storm" },
+    require("tokyonight").setup({
+      -- use the night style
+      on_colors = function(colors)
+        colors.border = colors.orange
+      end,
+    }),
   },
   -- Or with configuration
   -- {

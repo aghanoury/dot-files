@@ -1,5 +1,5 @@
 return {
-  "glepnir/dashboard-nvim",
+  "nvimdev/dashboard-nvim",
   opts = {
     config = {
       header = vim.split(
@@ -20,6 +20,9 @@ return {
      /o)  (o/\ \_    
      \_____/ /       
        \____/        
+
+
+
     ]],
         "\n"
       ),

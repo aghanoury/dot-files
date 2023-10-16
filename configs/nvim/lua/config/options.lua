@@ -3,12 +3,11 @@
 -- Add any additional options here
 --
 
-vim.opt.wrap = true
-vim.g.tokyonight_colors = { border = "orange" }
-
-require("tokyonight").setup({
-  -- use the night style
-  on_colors = function(colors)
-    colors.border = colors.orange
-  end,
-})
+-- return {
+--   require("tokyonight").setup({
+--     -- use the night style
+--     on_colors = function(colors)
+--       colors.border = colors.orange
+--     end,
+--   }),
+-- }
