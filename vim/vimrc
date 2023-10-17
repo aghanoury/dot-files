@@ -6,6 +6,8 @@ call plug#begin()
     Plug 'junegunn/fzf.vim'
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
+    Plug 'mhinz/vim-startify'
+    Plug 'mhinz/vim-janah'
 call plug#end()
 
 set guioptions=
@@ -38,7 +40,9 @@ endif
 
 "set macmeta
 set t_Co=256
+"autocmd ColorScheme deus highlight Normal ctermbg=235
 colorscheme deus
+"colorscheme janah
 
 " fix deus colors in terminal
 "set t_Co=256

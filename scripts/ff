@@ -16,7 +16,7 @@ ignore=0
 # add a usage block
 usage() {
     echo "Usage: $0 [-i] [-d <depth>] [directories...]" 1>&2
-    echo "  -i: ignore .gitignore files" 1>&2
+    echo "  -i: do NOT ignore .gitignore files" 1>&2
     echo "  -d: specify depth of search" 1>&2
     echo "  directories: directories to search" 1>&2
     exit 1
