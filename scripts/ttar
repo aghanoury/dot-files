@@ -3,12 +3,21 @@
 printf "enter a target zip (leave blank for default): "
 read target
 
-# if the target input is blank, then create a name
-# based on the current date and time prefixed by "compressed_"
-if [ -z "$target" ]; then
+# if the target input is blank, and only one argument
+# is provided, then use the argument as the target name
+if [ -z "$target" ] && [ $# -eq 1 ]; then
+	target=$1
+else
 	echo "WARNING: no target name provided"
 	target="compressed_$(date +%Y%m%d_%H%M%S)"
-	echo "defaulting to -> $target"
+fi
+# prompt the user to continue
+echo "INFO: compressing files to -> $target.tar.gz"
+printf "continue? (y/n): "
+read confirm
+if [ "$confirm" != "y" ]; then
+	echo "INFO: exiting"
+	exit 0
 fi
 
 echo "INFO: compress files to -> $target"
