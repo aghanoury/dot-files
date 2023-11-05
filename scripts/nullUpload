@@ -1,0 +1,18 @@
+#! /bin/sh
+
+# the first argument should be the file path
+file_path=$1
+# if the file path is not given, throw error
+if [ -z "$file_path" ]; then
+	echo "Error: file path not given"
+	exit 1
+fi
+
+# if the second argument is provided
+# set that as the expiration time in hours
+if [ ! -z "$2" ]; then
+	expiration_time="-Fexpires=$2"
+fi
+
+# echo uploading file: ${file_path}
+curl -F"file=@${file_path}" $expiration_time https://0x0.st
