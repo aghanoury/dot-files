@@ -1,5 +1,6 @@
 prompt='%(?.%F{green}√.%F{red}?%?)%f %B%F{red}%2~%f%b %% '
 prompt="%F{cyan}${${(%):-%m}#zoltan-}%f "$prompt
+bindkey -e
 # source misc filesa
 source ~/.dot-files/scripts/git.sh
 path+=(~/bin/)
@@ -21,9 +22,9 @@ SAVEHIST=10000
 setopt appendhistory
 
 # misc env variables
-export DEFAULT_MONITOR="AW34"
-export GPG_TTY=$(tty)
-export TERM=screen-256color
+# export DEFAULT_MONITOR="AW34"
+# export GPG_TTY=$(tty)
+# export TERM=screen-256color
 
 check_dot_files
 
