@@ -53,5 +53,10 @@ map({ "n", "v" }, "<S-l>", "e", { desc = "move forward a word" })
 map({ "n", "v" }, "J", "<C-e>", { desc = "move window down a line", remap = true })
 map({ "n", "v" }, "K", "<C-y>", { desc = "move window up a line", remap = true })
 
+-- map({ "n" }, "<leader>jj", "<cmd>:join<cr>", { desc = "Join", remap = true })
+map({ "v" }, "<leader>jj", ":'<,'>join<cr>", { desc = "Join", remap = true })
+map({ "n", "v" }, "<leader>nn", "<cmd>NoNeckPain<cr>", { desc = "Join", remap = true })
+
 -- delete full word on delete
 map("i", "<A-BS>", "<C-w>", { desc = "Delete preceding word", remap = true })
+map("n", "<leader>ss", "<cmd>Telescope spell_suggest<cr>", { desc = "Spell suggest", remap = true })

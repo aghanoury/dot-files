@@ -8,6 +8,11 @@ call plug#begin()
     Plug 'vim-airline/vim-airline-themes'
     Plug 'mhinz/vim-startify'
     Plug 'mhinz/vim-janah'
+    Plug 'liuchengxu/vim-which-key'
+    Plug 'lervag/vimtex'
+    " post install (yarn install | npm install) then load plugin only for
+    " editing supported files
+    Plug 'prettier/vim-prettier', { 'do': 'yarn install --frozen-lockfile  --production' }
 call plug#end()
 
 set guioptions=
@@ -58,6 +63,7 @@ colorscheme deus
 
 
 let mapleader = " "
+nnoremap <silent> <leader> :WhichKey '<Space>'<CR>
 map <leader>h :noh<CR>
 nnoremap <leader>e :NERDTreeToggle<CR>
 nnoremap <leader>qq :qa<CR>

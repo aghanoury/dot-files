@@ -1,12 +1,14 @@
 return {
   {
     "folke/tokyonight.nvim",
-    lazy = true,
+    lazy = false,
     opts = { style = "storm" },
     require("tokyonight").setup({
       -- use the night style
       on_colors = function(colors)
         colors.border = colors.orange
+        -- make the normal text a bit more high contrast
+        colors.fg = "#fefefe"
       end,
     }),
   },

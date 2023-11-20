@@ -11,3 +11,6 @@
 --     end,
 --   }),
 -- }
+vim.opt.wrap = true -- Disable line wrap
+vim.opt.linebreak = true -- Wrap on word boundary
+vim.opt.conceallevel = 0
