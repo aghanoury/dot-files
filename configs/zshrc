@@ -24,7 +24,7 @@ setopt appendhistory
 # misc env variables
 # export DEFAULT_MONITOR="AW34"
 # export GPG_TTY=$(tty)
-# export TERM=screen-256color
+export TERM=screen-256color
 
 check_dot_files
 
@@ -67,6 +67,8 @@ alias v='vim'
 alias n='vim'
 alias vim-help='cat ~/.vim/vim-help.md'
 alias sendpushexit='sendpush "Job done with exit code $?"'
+alias last='last | tac'
+alias nvidia-status='watch -n 1 nvidia-smi'
 
 function weather () {
 #     curl -m 0.8 --connect-timeout 3  "wttr.in/${location}?0"
