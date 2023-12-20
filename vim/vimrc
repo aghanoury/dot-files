@@ -112,8 +112,8 @@ map! <S-Insert> <MiddleMouse>
 map <S-h> b
 map <S-l> e
 nmap <C-x> dd
-noremap <S-j> <C-e>
-noremap <S-k> <C-y>
+noremap <S-j> 2<C-e>
+noremap <S-k> 2<C-y>
 "noremap <C-l> :noh<CR>
 noremap <C-f>  :BLines<CR>
 noremap <C-g>  :Files<CR>
