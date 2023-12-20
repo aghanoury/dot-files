@@ -3,11 +3,10 @@
 printf "enter a target zip (leave blank for default): "
 read target
 
-# if the target input is blank, and only one argument
-# is provided, then use the argument as the target name
 if [ -z "$target" ] && [ $# -eq 1 ]; then
 	target=$1
-else
+
+elif [ -z "$target" ] && [ $# -gt 1 ]; then
 	echo "WARNING: no target name provided"
 	target="compressed_$(date +%Y%m%d_%H%M%S)"
 fi
