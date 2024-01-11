@@ -68,6 +68,7 @@ alias n='vim'
 alias sendpushexit='sendpush "Job done with exit code $?"'
 alias last='last | tac'
 alias nvidia-status='watch -n 1 nvidia-smi'
+alias dfh='df -h | grep /dev/'
 
 function weather () {
 #     curl -m 0.8 --connect-timeout 3  "wttr.in/${location}?0"
