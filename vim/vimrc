@@ -4,12 +4,15 @@ call plug#begin()
     Plug 'ajmwagar/vim-deus'
     Plug 'junegunn/fzf'
     Plug 'junegunn/fzf.vim'
-    Plug 'vim-airline/vim-airline'
-    Plug 'vim-airline/vim-airline-themes'
+"    Plug 'vim-airline/vim-airline'
+"    Plug 'vim-airline/vim-airline-themes'
     Plug 'mhinz/vim-startify'
     Plug 'mhinz/vim-janah'
     Plug 'liuchengxu/vim-which-key'
-    Plug 'lervag/vimtex'
+"    Plug 'lervag/vimtex'
+    Plug 'SirVer/ultisnips'
+    Plug 'honza/vim-snippets'
+    Plug 'neoclide/coc.nvim', {'branch': 'release'}
     " post install (yarn install | npm install) then load plugin only for
     " editing supported files
     Plug 'prettier/vim-prettier', { 'do': 'yarn install --frozen-lockfile  --production' }
@@ -37,6 +40,28 @@ set relativenumber
 set clipboard=unnamed
 "set tw=80
 "set fo+=t
+"let g:UltiSnipsExpandTrigger="<tab>"
+"let g:UltiSnipsJumpForwardTrigger="<c-b>"
+"let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+" Use <C-l> for trigger snippet expand.
+ imap <C-l> <Plug>(coc-snippets-expand)
+
+ " Use <C-j> for select text for visual placeholder of snippet.
+ vmap <C-j> <Plug>(coc-snippets-select)
+
+ " Use <C-j> for jump to next placeholder, it's default of coc.nvim
+ let g:coc_snippet_next = '<c-j>'
+
+ " Use <C-k> for jump to previous placeholder, it's default of coc.nvim
+ let g:coc_snippet_prev = '<c-k>'
+
+ " Use <C-j> for both expand and jump (make expand higher priority.)
+ imap <C-j> <Plug>(coc-snippets-expand-jump)
+
+ " Use <leader>x for convert visual selected code to snippet
+ xmap <leader>x  <Plug>(coc-convert-snippet)
+
 
 " platform dependent options
 if system('uname')=~'Linux'
@@ -60,6 +85,21 @@ colorscheme deus
 "colorscheme deus
 "let g:deus_termcolors=256
 "
+
+inoremap <silent><expr> <TAB>
+      \ coc#pum#visible() ? coc#_select_confirm() :
+            \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+                  \ CheckBackspace() ? "\<TAB>" :
+                        \ coc#refresh()
+
+function! CheckBackspace() abort
+      let col = col('.') - 1
+        return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+let g:coc_snippet_next = '<tab>'
+
+
 
 
 let mapleader = " "

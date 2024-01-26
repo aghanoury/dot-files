@@ -25,6 +25,7 @@ setopt appendhistory
 # export DEFAULT_MONITOR="AW34"
 # export GPG_TTY=$(tty)
 export TERM=screen-256color
+export LC_ALL=en_US.UTF-8
 
 check_dot_files
 
