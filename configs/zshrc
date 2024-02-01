@@ -69,6 +69,7 @@ alias sendpushexit='sendpush "Job done with exit code $?"'
 alias last='last | tac'
 alias nvidia-status='watch -n 1 nvidia-smi'
 alias dfh='df -h | grep /dev/'
+alias cdr='cd -P .'
 
 function weather () {
 #     curl -m 0.8 --connect-timeout 3  "wttr.in/${location}?0"
@@ -76,7 +77,7 @@ function weather () {
 }
 
 function du () {
-    /usr/bin/du -h -d 1 $1 2>/dev/null
+    /usr/bin/du -h -d 1 "$@" 2>/dev/null
 }
 
 
