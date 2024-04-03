@@ -10,8 +10,13 @@ elif [ -z "$target" ] && [ $# -gt 1 ]; then
 	echo "WARNING: no target name provided"
 	target="compressed_$(date +%Y%m%d_%H%M%S)"
 fi
+
+# if there are any spaces in the target name, print a WARNING
+if [ $(echo $target | grep -c " ") -gt 0 ]; then
+	echo "WARNING: target name contains spaces"
+fi
 # prompt the user to continue
-echo "INFO: compressing files to -> $target.tar.gz"
+echo "INFO: compressing files to $target.tar.gz"
 printf "continue? (y/n): "
 read confirm
 if [ "$confirm" != "y" ]; then

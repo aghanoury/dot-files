@@ -70,6 +70,8 @@ alias last='last | tac'
 alias nvidia-status='watch -n 1 nvidia-smi'
 alias dfh='df -h | grep /dev/'
 alias cdr='cd -P .'
+alias llog='vim -c "set tw=80 | set fo+=t" '
+alias suggest='gh copilot suggest'
 
 function weather () {
 #     curl -m 0.8 --connect-timeout 3  "wttr.in/${location}?0"
