@@ -107,4 +107,3 @@ export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border --extended -i -m
 h=($h ${${${(@M)${(f)"$(cat ~/.ssh/config)"}:#Host *}#Host }:#*[*?]*})
 zstyle ':completion:*:ssh:*' hosts $h
 zstyle ':completion:*:scp:*' hosts $h
-
