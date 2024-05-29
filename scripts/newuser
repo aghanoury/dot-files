@@ -2,7 +2,28 @@
 
 # prompt for username
 read -p "Enter the username: " username
-sudo adduser $username
+
+# specify where the home directory should live
+choice=0
+
+# Prompt until a valid input is received
+while [[ $choice -ne 1 && $choice -ne 2 ]]; do
+	echo "Please choose an option:"
+	echo "1) (standard):/home/$username/"
+	echo "2) (new way): /data/$username/"
+	read -p "Enter your choice (1 or 2): " choice
+
+	# Check if the input is either 1 or 2
+	if [[ $choice -eq 1 ]]; then
+		hd=/home/$username
+	elif [[ $choice -eq 2 ]]; then
+		hd=/data/$username
+	else
+		echo "Invalid input, please enter 1 or 2."
+	fi
+done
+
+sudo adduser --home $hd $username
 
 # ask if they should get sudo privileges
 read -p "Should this user get sudo privileges? (y/n): " sudopriv
