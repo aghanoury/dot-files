@@ -1,0 +1,31 @@
+#! python3
+
+import pathlib
+import textwrap
+from rich.console import Console
+from rich.markdown import Markdown
+
+
+import google.generativeai as genai
+
+# GOOGLE_API_KEY=os.getenv('GOOGLE_API_KEY')
+GOOGLE_API_KEY='AIzaSyBE4vDK4OrQRJXRem6M0rssizqzDo0OHWg'
+
+genai.configure(api_key=GOOGLE_API_KEY)
+
+# for m in genai.list_models():
+#   if 'generateContent' in m.supported_generation_methods:
+#     print(m.name)
+
+model = genai.GenerativeModel('gemini-1.5-flash')
+p=input("Prompt: ")
+console = Console()
+response = model.generate_content(p)
+# for chunk in response:
+#     md = Markdown(chunk.text)
+#     console.print(md, sep='')
+#     # print(chunk.text, end='')
+
+md = Markdown(response.text)
+console.print(md)
+
