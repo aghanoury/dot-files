@@ -25,7 +25,6 @@ p=input("")
 print()
 
 GOOGLE_API_KEY=os.getenv('GOOGLE_API_KEY')
-# GOOGLE_API_KEY='AIzaSyBE4vDK4OrQRJXRem6M0rssizqzDo0OHWg'
 
 genai.configure(api_key=GOOGLE_API_KEY)
 
