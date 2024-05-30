@@ -1,12 +1,9 @@
 #! /usr/bin/env python3
 
-import textwrap
+import argparse
+import os
 from rich.console import Console
 from rich.markdown import Markdown
-import os
-import argparse
-import time
-
 
 parser = argparse.ArgumentParser(description="A program that optionally takes a stream argument.")
 
@@ -18,47 +15,35 @@ parser.add_argument('-s', '--stream',
 # Parse the arguments
 args = parser.parse_args()
 
-
+# send the prompt string first to make it seem faster
 print("Prompt: ", end='')
 import google.generativeai as genai
 p=input("")
 print()
 
 GOOGLE_API_KEY=os.getenv('GOOGLE_API_KEY')
-
 genai.configure(api_key=GOOGLE_API_KEY)
 
 # for m in genai.list_models():
 #   if 'generateContent' in m.supported_generation_methods:
 #     print(m.name)
 
-model = genai.GenerativeModel('gemini-1.5-flash')
 console = Console()
+model = genai.GenerativeModel('gemini-1.5-flash')
+chat = model.start_chat()
 
 while True:
-    # if you want that chatgpt style of streaming the text results
-    # only problem is that it doens't really work with markdown output
-# for chunk in response:
-#     md = Markdown(chunk.text)
-#     console.print(md, sep='')
-#     # print(chunk.text, end='')
-    #     
-
-    response = model.generate_content(p, stream=args.stream)
+    response = chat.send_message(p, stream=args.stream)
     if args.stream:
         for chunk in response:
             print(chunk.text, end='')
     else:
         md = Markdown(response.text)
         console.print(md)
-    # prev = response
     print('------------------------')
     try:
-        pp = p
         p = input("Prompt: ")
         print()
     except (KeyboardInterrupt, EOFError):
         print("Exiting.")
         exit(0)
-
-    p = f"We are continuing a conversation. Here is the previous prompt for context: {pp}.\nAnd your response to that prompt was {response.text}.\n\n Given this context, here is the new prompt: {p}"
