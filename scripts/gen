@@ -29,10 +29,13 @@ genai.configure(api_key=GOOGLE_API_KEY)
 #     print(m.name)
 
 console = Console()
-model = genai.GenerativeModel('gemini-1.5-flash')
+model = genai.GenerativeModel('gemini-1.5-flash-latest')
 chat = model.start_chat()
 
 while True:
+    if p == 'exit':
+        print("Exiting.")
+        exit(0)
     response = chat.send_message(p, stream=args.stream)
     if args.stream:
         for chunk in response:
