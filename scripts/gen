@@ -14,14 +14,15 @@ parser.add_argument('-s', '--stream',
                     action='store_false', 
                     help='stream the results instead of printin in markdown')
 
+parser.add_argument('-f', '--file', 
+                    help="read in a text file.")
+
 # Parse the arguments
 args = parser.parse_args()
 
 # send the prompt string first to make it seem faster
-print("Prompt: ", end='')
+print("Loading...")
 import google.generativeai as genai
-p=input("")
-print()
 
 GOOGLE_API_KEY=os.getenv('GOOGLE_API_KEY')
 genai.configure(api_key=GOOGLE_API_KEY)
@@ -34,10 +35,30 @@ console = Console()
 model = genai.GenerativeModel('gemini-1.5-flash-latest')
 chat = model.start_chat()
 
-while True:
-    if p == 'exit':
-        print("Exiting.")
-        exit(0)
+
+def get_input(pre_prompt="Prompt"):
+    while True:
+        try:
+            p = input(f"{pre_prompt}: ")
+            if p == "":
+                continue
+            elif p == "exit":
+                exit(0)
+            print()
+            break
+        except (KeyboardInterrupt, EOFError):
+            print("Exiting.")
+            exit(0)
+    return p
+
+
+if args.file:
+    p = get_input("Enter a preamble prompt before file")
+
+    with open(args.file, 'r') as f:
+        fc = f.read()
+
+    p += fc
     response = chat.send_message(p, stream=args.stream)
     if args.stream:
         for chunk in response:
@@ -50,13 +71,31 @@ while True:
                 else:
                     print(word, end='')
             # print(chunk.text, end='')
+        print()
     else:
         md = Markdown(response.text)
         console.print(md)
     print('------------------------')
-    try:
-        p = input("Prompt: ")
+
+
+while True:
+
+    p = get_input()
+
+    response = chat.send_message(p, stream=args.stream)
+    if args.stream:
+        for chunk in response:
+            words = chunk.text.split(' ')
+            for i, word in enumerate(words):
+                if i < len(words) - 1:
+                    print(word, end=' ', flush=True)
+                    # print('here')
+                    time.sleep(0.01)
+                else:
+                    print(word, end='')
+            # print(chunk.text, end='')
         print()
-    except (KeyboardInterrupt, EOFError):
-        print("Exiting.")
-        exit(0)
+    else:
+        md = Markdown(response.text)
+        console.print(md)
+    print('------------------------')
