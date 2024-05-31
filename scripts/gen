@@ -2,6 +2,7 @@
 
 import argparse
 import os
+import time
 from rich.console import Console
 from rich.markdown import Markdown
 
@@ -39,7 +40,15 @@ while True:
     response = chat.send_message(p, stream=args.stream)
     if args.stream:
         for chunk in response:
-            print(chunk.text, end='')
+            words = chunk.text.split(' ')
+            for i, word in enumerate(words):
+                if i < len(words) - 1:
+                    print(word, end=' ', flush=True)
+                    # print('here')
+                    time.sleep(0.01)
+                else:
+                    print(word, end='')
+            # print(chunk.text, end='')
     else:
         md = Markdown(response.text)
         console.print(md)
