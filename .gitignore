@@ -8,3 +8,4 @@ vim/.*
 .vscode
 *__pycache__*
 configs/nvim/lazy-lock.json
+configs/nvim/lazyvim.json
