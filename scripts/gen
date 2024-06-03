@@ -13,28 +13,53 @@ from rich.progress import Progress
 from rich import print
 
 GOOGLE_API_KEY=os.getenv('GOOGLE_API_KEY')
-with Progress(transient=True) as progress:
-    task = progress.add_task("Loading", total=None)
 
-    parser = argparse.ArgumentParser(description="A program that optionally takes a stream argument.")
+# we don't need these
+safety_settings = [
+    {
+        "category": "HARM_CATEGORY_DANGEROUS",
+        "threshold": "BLOCK_NONE",
+    },
+    {
+        "category": "HARM_CATEGORY_HARASSMENT",
+        "threshold": "BLOCK_NONE",
+    },
+    {
+        "category": "HARM_CATEGORY_HATE_SPEECH",
+        "threshold": "BLOCK_NONE",
+    },
+    {
+        "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+        "threshold": "BLOCK_NONE",
+    },
+    {
+        "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+        "threshold": "BLOCK_NONE",
+    },
+]
+
+
+parser = argparse.ArgumentParser(description="A program that optionally takes a stream argument.")
 
 # Add the optional stream argument
-    parser.add_argument('-r', '--raw', 
-                    action='store_true',
-                    help='print the raw text without rendering markdown')
+parser.add_argument('-r', '--raw', 
+                action='store_true',
+                help='print the raw text without rendering markdown')
 
-    parser.add_argument('-f', '--file', 
-                    help="read in a text file.")
+parser.add_argument('-f', '--file', 
+                help="read in a text file.")
 
 # Parse the arguments
-    args = parser.parse_args()
+args = parser.parse_args()
 
+with Progress(transient=True) as progress:
+    task = progress.add_task("Loading", total=None)
     import google.generativeai as genai
 
     genai.configure(api_key=GOOGLE_API_KEY)
 
     console = Console()
-    model = genai.GenerativeModel('gemini-1.5-flash-latest')
+    model = genai.GenerativeModel('gemini-1.5-flash-latest', safety_settings=safety_settings)
     chat = model.start_chat()
 
 
@@ -79,7 +104,7 @@ if args.file:
     response = chat.send_message(p, stream=True)
     live_response_md_stream(console, response)
 
-console.rule("", style="bold red")
+console.rule("", style="bold blue")
 while True:
     p = get_input()
     try:
@@ -107,8 +132,10 @@ while True:
         print(":warning-emoji: [bold red blink] KeyboardInterrupt! TOOD fix this[/]")
         exit(1)
 
-    except:
+    except Exception as e:
+        print(e)
         print(":warning-emoji: [bold red blink] Response failed![/]")
+        exit(1)
 
 
     console.rule("", style="bold red")
