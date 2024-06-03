@@ -53,6 +53,20 @@ def get_input(pre_prompt="Prompt"):
             exit(0)
     return p
 
+def live_response_md_stream(console, response):
+    md_content = ""
+    with Live(console=console, auto_refresh=False) as live:
+        for chunk in response:
+            words = chunk.text.split(' ')
+            for i, word in enumerate(words):
+                if i < len(words)-1:
+                    md_content += word + ' '
+                else:
+                    md_content += word
+                markdown = Markdown(md_content)
+                time.sleep(0.01)
+                live.update(markdown, refresh=True)
+
 
 # TODO: handle file input 
 if args.file:
@@ -62,23 +76,8 @@ if args.file:
         fc = f.read()
 
     p += fc
-    response = chat.send_message(p, stream=args.stream)
-    if args.stream:
-        for chunk in response:
-            words = chunk.text.split(' ')
-            for i, word in enumerate(words):
-                if i < len(words) - 1:
-                    print(word, end=' ', flush=True)
-                    # print('here')
-                    time.sleep(0.01)
-                else:
-                    print(word, end='')
-            # print(chunk.text, end='')
-        print()
-    else:
-        md = Markdown(response.text)
-        console.print(md)
-    print('------------------------')
+    response = chat.send_message(p, stream=True)
+    live_response_md_stream(console, response)
 
 console.rule("", style="bold red")
 while True:
@@ -102,17 +101,12 @@ while True:
 
         # print the neat markdown version
         else:
-            with Live(console=console, auto_refresh=False) as live:
-                for chunk in response:
-                    words = chunk.text.split(' ')
-                    for i, word in enumerate(words):
-                        if i < len(words)-1:
-                            md_content += word + ' '
-                        else:
-                            md_content += word
-                        markdown = Markdown(md_content)
-                        time.sleep(0.01)
-                        live.update(markdown, refresh=True)
+            live_response_md_stream(console, response)
+
+    except KeyboardInterrupt:
+        print(":warning-emoji: [bold red blink] KeyboardInterrupt! TOOD fix this[/]")
+        exit(1)
+
     except:
         print(":warning-emoji: [bold red blink] Response failed![/]")
 
