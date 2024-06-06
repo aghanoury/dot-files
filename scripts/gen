@@ -3,6 +3,7 @@
 import argparse
 import os
 import readline
+from sys import excepthook
 import time
 from proto.enums import EnumRule
 from rich.console import Console
@@ -64,18 +65,33 @@ with Progress(transient=True) as progress:
 
 
 def get_input(pre_prompt="Prompt"):
+    """
+    Get user prompt and preprocess.
+    If the user types the word 'file', then
+    we invoke a file reading subroutine
+
+        """
     global console
     while True:
-        try:
-            p = input(f'{pre_prompt}: ')
-            if p == "":
-                continue
-            elif p == "exit":
-                exit(0)
-            break
-        except (KeyboardInterrupt, EOFError):
-            print("Exiting.")
+        p = input(f'{pre_prompt}: ')
+        if p == "":
+            continue
+        elif p == "exit":
             exit(0)
+        elif p == "file":
+            while True:
+                filename = Prompt.ask("Enter a filename")
+                try:
+                    with open(filename, 'r') as f:
+                        fc = f.read()
+                        break
+                except:
+                    continue
+
+            p = Prompt.ask("Preamble prompt")
+            p += "\n\n" + fc
+
+        break
     return p
 
 def live_response_md_stream(console, response):
@@ -91,7 +107,10 @@ def live_response_md_stream(console, response):
                 markdown = Markdown(md_content)
                 time.sleep(0.01)
                 live.update(markdown, refresh=True)
+    return md_content
 
+def truncate_string(s, length):
+    return s[:length]+"..." if len(s) > length else s
 
 # TODO: handle file input 
 if args.file:
@@ -105,37 +124,51 @@ if args.file:
     live_response_md_stream(console, response)
 
 console.rule("", style="bold blue")
-while True:
-    p = get_input()
-    try:
-        response = chat.send_message(p, stream=True)
-        md_content = ""
-        console.rule("", style="bold green")
 
-        # print the raw text (with typing animations)
-        if args.raw:
-            for chunk in response:
-                words = chunk.text.split(' ')
-                for i, word in enumerate(words):
-                    if i < len(words) - 1:
-                        print(word, end=' ', flush=True)
-                    else:
-                        print(word, end='')
-                    time.sleep(0.01)
+with open(os.path.expanduser('~') + '/.chat.log', 'a') as chat_log:
+    while True:
+        
+        try:
+            p = get_input()
+            resp = ""
+            response = chat.send_message(p, stream=True)
+            md_content = ""
+            console.rule("", style="bold green")
+
+            # print the raw text (with typing animations)
+            if args.raw:
+                for chunk in response:
+                    resp += chunk.text
+                    words = chunk.text.split(' ')
+                    for i, word in enumerate(words):
+                        if i < len(words) - 1:
+                            print(word, end=' ', flush=True)
+                        else:
+                            print(word, end='')
+                        time.sleep(0.01)
+                print()
+
+            # print the neat markdown version
+            else:
+                resp = live_response_md_stream(console, response)
+
+
+        except KeyboardInterrupt:
+            # print(":warning-emoji: [bold red blink] KeyboardInterrupt! TOOD fix this[/]")
+            # exit(1)
             print()
-
-        # print the neat markdown version
-        else:
-            live_response_md_stream(console, response)
-
-    except KeyboardInterrupt:
-        print(":warning-emoji: [bold red blink] KeyboardInterrupt! TOOD fix this[/]")
-        exit(1)
-
-    except Exception as e:
-        print(e)
-        print(":warning-emoji: [bold red blink] Response failed![/]")
-        exit(1)
+            continue
+        except EOFError:
+            print(":warning-emoji: [bold red blink] KeyboardInterrupt! TOOD fix this[/]")
+            exit(0)
 
 
-    console.rule("", style="bold red")
+        except Exception as e:
+            print(e)
+            print(":warning-emoji: [bold red blink] Response failed![/]")
+            exit(1)
+
+        chat_log.write("prompt: " + truncate_string(p, 50) + '\n' + 80*'-' + '\n')
+        chat_log.write(resp + 80*'-' + '\n')
+
+        console.rule("", style="bold blue")
