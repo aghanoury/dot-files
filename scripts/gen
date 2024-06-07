@@ -85,7 +85,8 @@ def get_input(pre_prompt="Prompt"):
                     with open(filename, 'r') as f:
                         fc = f.read()
                         break
-                except:
+                except Exception as e:
+                    print(e)
                     continue
 
             p = Prompt.ask("Preamble prompt")
@@ -127,7 +128,6 @@ console.rule("", style="bold blue")
 
 with open(os.path.expanduser('~') + '/.chat.log', 'a') as chat_log:
     while True:
-        
         try:
             p = get_input()
             resp = ""
@@ -161,7 +161,6 @@ with open(os.path.expanduser('~') + '/.chat.log', 'a') as chat_log:
         except EOFError:
             print(":warning-emoji: [bold red blink] KeyboardInterrupt! TOOD fix this[/]")
             exit(0)
-
 
         except Exception as e:
             print(e)
