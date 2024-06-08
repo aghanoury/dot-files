@@ -126,7 +126,7 @@ if args.file:
 
 console.rule("", style="bold blue")
 
-with open(os.path.expanduser('~') + '/.chat.log', 'a') as chat_log:
+with open(os.path.expanduser('~') + '/.chat.md', 'a') as chat_log:
     while True:
         try:
             p = get_input()
