@@ -15,6 +15,10 @@ from rich import print
 
 GOOGLE_API_KEY=os.getenv('GOOGLE_API_KEY')
 
+# TODO: 1. handle inline input from vim
+# TODO: 2. handle multiline strings in the form of """
+
+
 # we don't need these
 safety_settings = [
     {
@@ -40,7 +44,7 @@ safety_settings = [
 ]
 
 
-parser = argparse.ArgumentParser(description="A program that optionally takes a stream argument.")
+parser = argparse.ArgumentParser(description="A generative chatbot using the Gemini API. The api output is streamed and the resulting text is printed as rendered markdown in the terminal. The chat is all saved in ~/.chat.md. Multi-lined input is triggered by adding a triple quote \"\"\" which is first replaced by a newline, then this multilined mode is ended by just passing another tripple quote (nothing else!). See the other options below")
 
 # Add the optional stream argument
 parser.add_argument('-r', '--raw', 
@@ -63,14 +67,12 @@ with Progress(transient=True) as progress:
     model = genai.GenerativeModel('gemini-1.5-flash-latest', safety_settings=safety_settings)
     chat = model.start_chat()
 
-
 def get_input(pre_prompt="Prompt"):
     """
     Get user prompt and preprocess.
     If the user types the word 'file', then
     we invoke a file reading subroutine
-
-        """
+    """
     global console
     while True:
         p = input(f'{pre_prompt}: ')
@@ -80,7 +82,7 @@ def get_input(pre_prompt="Prompt"):
             exit(0)
         elif p == "file":
             while True:
-                filename = Prompt.ask("Enter a filename")
+                filename = input("Enter a filename: ")
                 try:
                     with open(filename, 'r') as f:
                         fc = f.read()
@@ -89,11 +91,35 @@ def get_input(pre_prompt="Prompt"):
                     print(e)
                     continue
 
-            p = Prompt.ask("Preamble prompt")
-            p += "\n\n" + fc
-
+            preamble = input("Preamble prompt: ")
+            p = preamble + "\n\n" + fc
+        elif '"""' in p :
+            p = p.replace('"""','\n')
+            multiline_input = []
+            while True:
+                line = input("> ")
+                if line == '"""':
+                    break
+                multiline_input.append(line)
+            p += '\n'.join(multiline_input)
         break
     return p
+
+# def raw_response_stream(console, response):
+#     md_content = ""
+#     for chunk in response:
+#         words = chunk.text.split(' ')
+#         for i, word in enumerate(words):
+#             if i < len(words)-1:
+#                 md_content += word + ' '
+#             else:
+#                 md_content += word
+#             print(md_content, end='')
+#             # markdown = Markdown(md_content)
+#             # time.sleep(0.01)
+#             # live.update(markdown, refresh=True)
+#     return md_content
+
 
 def live_response_md_stream(console, response):
     md_content = ""
