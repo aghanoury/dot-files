@@ -1,0 +1,13 @@
+#! /bin/sh
+#pdftotext ${@:-*} - | fzf
+# pdftotext $1 - | fzf
+# for i in "$@"; do
+#     fname="$i"
+#     echo $fname
+#     pdftotext "$fname" - 2>/dev/null | awk -v n="$fname" '{print n":", $0}'
+# done | fzf
+
+for file in "$@"; do
+	# cat "$file"
+	pdftotext "$file" - 2>/dev/null
+done
