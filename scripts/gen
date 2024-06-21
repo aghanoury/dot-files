@@ -193,7 +193,7 @@ with open(os.path.expanduser('~') + '/.chat.md', 'a') as chat_log:
             print(":warning-emoji: [bold red blink] Response failed![/]")
             exit(1)
 
-        chat_log.write("prompt: " + truncate_string(p, 50) + '\n' + 80*'-' + '\n')
-        chat_log.write(resp + 80*'-' + '\n')
+        chat_log.write("prompt: " + truncate_string(p, 50) + '\n\n' + 80*'-' + '\n')
+        chat_log.write(resp + '\n\n' + 80*'-' + '\n\n')
 
         console.rule("", style="bold blue")
