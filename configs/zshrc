@@ -66,7 +66,6 @@ alias tmb='tmux loadb -'
 alias v='vim'
 alias n='nvim'
 alias h='hx'
-alias yy='yazi'
 alias gg='lazygit'
 alias sendpushexit='sendpush "Job done with exit code $?"'
 alias last='last | tac'
@@ -110,3 +109,12 @@ export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border --extended -i -m
 h=($h ${${${(@M)${(f)"$(cat ~/.ssh/config)"}:#Host *}#Host }:#*[*?]*})
 zstyle ':completion:*:ssh:*' hosts $h
 zstyle ':completion:*:scp:*' hosts $h
+
+function yy() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
+	yazi "$@" --cwd-file="$tmp"
+	if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+		cd -- "$cwd"
+	fi
+	rm -f -- "$tmp"
+}
