@@ -9,3 +9,5 @@ vim/.*
 *__pycache__*
 configs/nvim/lazy-lock.json
 configs/nvim/lazyvim.json
+*/envs/*/*
+!*/envs/*/requirements.txt

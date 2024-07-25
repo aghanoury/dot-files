@@ -1,0 +1,34 @@
+theme = 'everforest_dark'
+
+[editor]
+true-color = true
+bufferline = 'always'
+
+[editor.soft-wrap]
+enable = true
+
+# various keymaps
+[keys.normal]
+J = "scroll_down"
+K = "scroll_up"
+L = "move_next_word_start"
+H = "move_prev_word_start"
+V = ["extend_line_below", "select_mode"]
+C-g = [":new", ":insert-output lazygit", ":theme default",  ":buffer-close!", ":redraw"]
+C-s = ":w"
+C-r = ':config-reload'
+
+[keys.insert]
+C-s = ":w"
+
+[keys.normal.'[']
+b = ":buffer-previous"
+
+[keys.normal.']']
+b = ":buffer-next"
+
+[keys.normal.space.q]
+q = ":quit"
+Q = ":quit!"
+b = ':buffer-close'
+B = ':buffer-close!'

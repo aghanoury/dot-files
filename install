@@ -16,6 +16,7 @@ ln -s ~/.dot-files/vim/vimrc ~/.vimrc
 ln -s ~/.dot-files/configs/tmux.conf ~/.tmux.conf
 ln -s ~/.dot-files/notes.md ~/notes.md
 ln -s ~/.dot-files/configs/nvim ~/.config/nvim
+ln -s ~/.dot-files/configs/helix ~/.config/helix
 
 # check if nvim is installed.
 if command -v nvim >/dev/null 2>&1; then
