@@ -11,3 +11,4 @@ configs/nvim/lazy-lock.json
 configs/nvim/lazyvim.json
 */envs/*/*
 !*/envs/*/requirements.txt
+configs/helix/runtime
