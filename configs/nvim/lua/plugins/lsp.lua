@@ -32,17 +32,25 @@ return {
       end,
     },
   },
-  -- {
-  --   "williamboman/mason.nvim",
-  --   opts = {
-  --     ensure_installed = {
-  --       "stylua",
-  --       "shellcheck",
-  --       "shfmt",
-  --       "flake8",
-  --     },
-  --   },
-  -- },
+  {
+    "williamboman/mason.nvim",
+    opts = {
+      ensure_installed = {
+        "stylua",
+        "shfmt",
+        "black",
+        "prettier",
+      },
+    },
+  },
+  {
+    "stevearc/conform.nvim",
+    opts = {
+      formatters_by_ft = {
+        ["python"] = { "black" },
+      },
+    },
+  },
   -- {
   --   "mfussenegger/nvim-dap",
   -- },
@@ -57,6 +65,9 @@ return {
       "williamboman/mason.nvim",
     },
     opts = {
+      inlay_hints = {
+        enabled = false,
+      },
       ---@type lspconfig.options
       servers = {
         -- pyright will be automatically installed with mason and loaded with lspconfig
@@ -71,7 +82,7 @@ return {
   },
   {
     "lervag/vimtex",
-    lazy = false, -- lazy-loading will disable inverse search
+    lazy = true, -- lazy-loading will disable inverse search
     config = function()
       vim.api.nvim_create_autocmd({ "FileType" }, {
         group = vim.api.nvim_create_augroup("lazyvim_vimtex_conceal", { clear = true }),
