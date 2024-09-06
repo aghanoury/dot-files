@@ -52,10 +52,18 @@ map({ "n", "v" }, "<S-h>", "b", { desc = "move back a word" })
 map({ "n", "v" }, "<S-l>", "e", { desc = "move forward a word" })
 map({ "n", "v" }, "J", "<C-e>", { desc = "move window down a line", remap = true })
 map({ "n", "v" }, "K", "<C-y>", { desc = "move window up a line", remap = true })
+map({ "n", "v" }, "<C-S-j>", "5<C-e>", { desc = "move window down 5 lines", remap = true })
+map({ "n", "v" }, "<C-S-k>", "5<C-y>", { desc = "move window up 5 lines", remap = true })
+map({ "n" }, "<C-k>", "<cmd>lua vim.lsp.buf.hover()<cr>", { desc = "show desc on hover", remap = true })
+
+-- vim.g.copilot_no_tab_map = trouble
+map({ "n", "i" }, "<S-Tab>", 'copilot#Accept("<CR>")')
+-- vim.api.nvim_set_keymap("i", "<C-J>", 'copilot#Accept("<CR>")', { silent = true, expr = true })
 
 -- map({ "n" }, "<leader>jj", "<cmd>:join<cr>", { desc = "Join", remap = true })
 map({ "v" }, "<leader>jj", ":'<,'>join<cr>", { desc = "Join", remap = true })
 map({ "n", "v" }, "<leader>nn", "<cmd>NoNeckPain<cr>", { desc = "Join", remap = true })
+-- map({ "n" }, "<leader>jd", "<cmd>lua vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())<cr>")
 
 -- delete full word on delete
 map("i", "<A-BS>", "<C-w>", { desc = "Delete preceding word", remap = true })
